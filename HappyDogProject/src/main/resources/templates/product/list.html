@@ -1,0 +1,69 @@
+
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container text-center py-5">
+            <h1 class="display-2 text-dark mb-4 animated slideInDown">Shop</h1>
+            <nav aria-label="breadcrumb animated slideInDown">
+              
+            </nav>
+        </div>
+    </div>
+
+ <div class="container-xxl py-5">
+        <div class="container">
+        <form th:action="@{/product/list}" method="post">
+    <div class="input-group mb-3" style="width:500px;">
+        <input type="text" class="form-control" placeholder="검색어를 입력하세요" th:value="${ss}" name="ss" aria-describedby="button-addon2">
+        <button class="btn btn-primary" type="submit" id="button-addon2">검색</button>
+    </div>
+</form>
+
+        
+            <div class="section-title text-center mx-auto wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">
+                <p class="fs-5 fw-medium fst-italic text-primary">Online Store</p>
+                <h1 class="display-6">당신의 반려동물을 위한 <br>최고의 선택</h1>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-4 " data-wow-delay="0.1s" th:each="vo:${list}">
+                    <div class="store-item position-relative text-center">
+                        <img class="img-fluid" th:src="${vo.p_image}" alt="">
+                        <div class="p-4">
+                           <div class="text-center mb-3">
+    <span th:each="starNumber : ${#numbers.sequence(0, 4)}" th:class="${vo.p_grade >= starNumber ? 'fa fa-star text-primary' : 'fa fa-star-o text-primary'}"></span>
+</div>
+
+                            <h4 class="mb-3" th:text="${vo.p_name}"></h4>
+                            <p><span th:text="${vo.p_category}"></span></p>
+                             <h4 class="" th:text="${vo.p_price}" style="color:black;text-decoration: line-through; font-size:18px;"></h4>
+                            <h4 class=""th:text="${vo.p_lower_price}" style="color:red;"></h4>
+                        </div>
+                        <div class="store-overlay">
+                            <a th:href="@{/product/detail_before(pno=${vo.pno})}" class="btn btn-primary rounded-pill py-2 px-4 m-2">More Detail <i class="fa fa-arrow-right ms-2"></i></a>
+                            <a href="" class="btn btn-dark rounded-pill py-2 px-4 m-2">Add to Cart <i class="fa fa-cart-plus ms-2"></i></a>
+                        </div>
+                    </div>
+                </div>
+            
+  
+
+         
+            </div>
+         
+            
+        </div>
+        		
+        		<div style="height:20px;"></div>
+            <div class="text-center" style="margin-left:450px;	">
+                <nav aria-label="Page navigation">
+           <ul class="pagination">
+ 			<li class="page-item" th:if="${startpage>1}"><a class="page-link" th:href="@{/product/list(page=${startpage-1},ss=${ss})}">&laquo; </a></li>
+          <li  th:class="${page == i ? 'page-item active' : 'page-item'}" th:each="i:${#numbers.sequence(startpage,endpage)}" >
+          <a class="page-link" th:href="@{/product/list(page=${i},ss=${ss})}" th:text="${i}"></a></li>
+          <li class="page-item" th:if="${endpage<totalpage}"><a class="page-link" th:href="@{/product/list(page=${endpage+1},ss=${ss})}"> &raquo;</a></li>
+			</ul> 
+         </nav>
+		       </div> 
+		    
+    </div>
+ 

@@ -1,0 +1,114 @@
+ <!-- Spinner Start -->
+   
+    <!-- Spinner End -->
+<meta charset="UTF-8">
+    
+    <!-- Navbar Start -->
+    <div class="container-fluid bg-white sticky-top" id="headerLog">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg bg-white navbar-light py-2 py-lg-0">
+                <a href="/" class="navbar-brand">
+                   <span class="doglogo">Happy Dog</span>
+                </a>
+                <button type="button" class="navbar-toggler ms-auto me-0" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    <div class="navbar-nav ms-auto">
+                        <a href="/" class="nav-item nav-link active">Home</a>
+                        <a href="../product/list" class="nav-item nav-link">상품</a>
+                        <a href="../dognews/list" class="nav-item nav-link">펫뉴스</a>
+                        <a href="../board/list" class="nav-item nav-link">커뮤니티</a>
+                     
+                     <div th:if="${session.id==null}" style="margin-top:15px; border:1px #f7f7f7 solid; padding:10px; border-radius:10px; background-color:#f7f7f7;">
+                        <span > ID&nbsp;&nbsp;&nbsp;<input type="text" ref="id" id="id" v-model="id"></span>
+                           <span style="margin-top:25px; margin-left:20px; margin-right:20px;"> PWD&nbsp;&nbsp;&nbsp;<input type="password" ref="pwd" id="pwd" v-model="pwd"></span>
+                        
+                  
+                   
+                        <button type="button" class="btn-primary" @click="login()">LOGIN</button>
+                   
+                    </div>
+                      </div>
+                      
+                      
+                       <div th:unless="${session.id==null}" style="margin-left:50px;">
+                        
+                        <span th:text=${session.name} style="font-weight:bold; font-size:20px; color:blue;"></span>
+                        <span style="font-weight:bold; font-size:20px; margin-right:20px;">님 로그인 되었습니다.</span>
+                    
+                   
+                        <button type="button" class="btn-primary" @click="logout()">LOGOUT</button>
+                   
+                    </div>
+                    
+                    </div>
+                    
+                     
+                    
+                </div>
+            </nav>
+        </div>
+      <script>
+  let logApp=Vue.createApp({
+	  data(){
+	        return{
+	           id:'',
+	             pwd:''
+	        }
+	     },
+	     methods:{
+	        login(){
+	           if(this.id==='')
+	            {
+	              this.$refs.id.focus()
+	              return
+	            }
+	           if(this.pwd==='')
+	            {
+	              this.$refs.pwd.focus()
+	              return
+	            }
+	           axios.post("/member/login",null,{
+	              params:{
+	                 id:this.id,
+	                 pwd:this.pwd
+	              }
+	           }).then(res=>{
+	              if(res.data=="NOID")
+	                {
+	                    alert("존재하지 않는 아이디 입니다")
+	                    this.id=''
+	                    this.pwd=''
+	                    this.$refs.id.focus()
+	                }
+	              else if(res.data=="NOPWD")
+	                 {
+	                 alert("틀린 비밀번호 입니다")
+	                    this.pwd=''
+	                    this.$refs.pwd.focus()
+	                 }
+	              else
+	                 {
+	                    location.href="/"
+	                 }
+	           })
+	        },
+	        logout(){
+	           axios.get("/member/logout").then(res=>{
+	              if(res.data=="YES")
+	                {
+	                    location.href="/"
+	                }
+	              else
+	                 {
+	                    alert("로그아웃 실패")
+	                 }
+	           })
+	        }
+	     }
+
+  }).mount("#headerLog")
+  </script>
+    
+    <!-- Navbar End -->

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style type="text/css">
+
+</style>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+
+    <!-- Page Header End -->
+<div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container text-center py-5">
+            <h1 class="display-2 text-dark mb-4 animated slideInDown">Shop</h1>
+            <nav aria-label="breadcrumb animated slideInDown">
+              
+            </nav>
+        </div>
+    </div>
+
+    <!-- Article Start -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-5 wow fadeIn" data-wow-delay="0.1s">
+                    <img class="img-fluid" th:src="${vo.p_image}" alt="">
+                </div>
+                <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
+                    <div class="section-title">
+                        <p class="fs-5 fw-medium fst-italic text-primary" th:text="${vo.p_category}"></p>
+                        <h1 class="display-6" th:text="${vo.p_name}"></h1>
+                         <p class="mb-4">   <div>
+					    <span th:each="starNumber : ${#numbers.sequence(0, 4)}" th:class="${vo.p_grade >= starNumber ? 'fa fa-star text-primary' : 'fa fa-star-o text-primary'}"></span>
+					</div>
+                    </div>
+                   <div >
+                   	<table class=table>
+                   		<tr>
+                   			<td width="10%">조회수</td>
+                   			<td th:text="${vo.p_hit}" width=30%></td>
+                   		</tr>
+                   		<tr>
+                   			<td>정가</td>
+                   			<td><span th:text="${vo.p_price}" style="text-decoration: line-through;"></span> 
+                   			<span th:text="${vo.p_percent}" style="margin-left:10px; font-weight:bold;   font-style: italic; color:blue;"></span></td>
+                   		</tr>
+                   		<tr>
+                   			<td>할인가</td>
+                   			<td th:text="${vo.p_lower_price}" style="font-weight:bold; color:red;"></td>
+                   		</tr>
+                   		<tr>
+                   			<td>배송비</td>
+                   			<td th:text="${vo.p_shipment}"></td>
+                   		</tr>
+                   		
+                   		<tr>
+                   			<td>유통기한</td>
+                   			<td th:if="${vo.p_expire_date!=''}"><span th:text="${vo.p_expire_date}"></span></td>
+                   			<td th:if="${vo.p_expire_date==''}"><span>상관없음</span></td>
+                   		</tr>
+                   	</table>
+                   </div>
+                   
+                </div>
+            </div>
+            <div class="row" style="margin-top:10px;">
+            	<div class="col-lg-1" th:each="sub:${vo.subImages}">
+            		<img th:src="${sub.p_sub_image}">
+            	</div>
+            	
+            </div>
+            	
+            	
+            	<div style="height:20px;"></div>
+            	<hr>
+            <div class="row " style="margin-top:15px;">
+            		<div class="row text-center">
+            	   <h1 class="display-6" >-최근본 상품-</h1>
+            	   
+            	   <div class="row g-4" >
+                <div class="col-lg-4 " data-wow-delay="0.1s" th:each="cvo:${clist}">
+                    <div class="store-item position-relative text-center">
+                        <img class="img-fluid" th:src="${cvo.p_image}" alt="">
+                        <div class="p-4">
+                           <div class="text-center mb-3">
+			   		 <span th:each="starNumber : ${#numbers.sequence(0, 4)}" th:class="${cvo.p_grade >= starNumber ? 'fa fa-star text-primary' : 'fa fa-star-o text-primary'}"></span>
+					</div>
+
+                            <h4 class="mb-3" th:text="${cvo.p_name}"></h4>
+                            <p><span th:text="${cvo.p_category}"></span></p>
+                     	        <h4 class="" th:text="${cvo.p_price}" style="color:black;text-decoration: line-through; font-size:18px;"></h4>
+                            <h4 class=""th:text="${cvo.p_lower_price}" style="color:red;"></h4>
+                        </div>
+                        <div class="store-overlay">
+                            <a th:href="@{/product/detail_before(pno=${cvo.pno})}" class="btn btn-primary rounded-pill py-2 px-4 m-2">More Detail <i class="fa fa-arrow-right ms-2"></i></a>
+                            <a href="" class="btn btn-dark rounded-pill py-2 px-4 m-2">Add to Cart <i class="fa fa-cart-plus ms-2"></i></a>
+                        </div>
+                    </div>
+                </div>
+            
+  
+
+         
+            </div>
+            	   
+            	
+            	</div>
+            	
+            	
+            </div>
+           
+           <div class="row" style="margin-top:30px;">
+          
+           <img th:if=${vo.p_detail_image!=null} th:src="${vo.p_detail_image}">
+         
+           </div>
+            
+        </div>
+    </div>
+</body>
+</html>

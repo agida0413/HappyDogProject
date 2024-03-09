@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>
+<script type="text/javascript">
+let i=0;
+$(function(){
+	$('.updates').click(function(){
+		$('.ups').hide()
+		$('.updates').val('수정')
+		let no=$(this).attr("alt");
+		if(i==0)
+		{
+			$(this).val("취소");
+			$('#u'+no).show()
+			i=1;
+		}
+		else
+		{
+			$(this).val("수정");
+			$('#u'+no).hide()
+			i=0;
+		}
+	})
+})
+</script>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+    <!-- Page Header Start -->
+    <div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container text-center py-5">
+            <h1 class="display-2 text-dark mb-4 animated slideInDown">Pet News</h1>
+            <nav aria-label="breadcrumb animated slideInDown">
+              
+            </nav>
+        </div>
+    </div>
+    <!-- Page Header End -->
+
+
+    <!-- Article Start -->
+    
+        <div class="container">
+            	
+               
+                <div class="col-lg-12 wow fadeIn" data-wow-delay="0.5s">
+                
+                    <div class="section-title text-center">
+                        <p class="fs-5 fw-medium fst-italic text-primary">Featured Acticle</p>
+                           <h1 class="display-6" th:text="${vo.news_subject}" style="margin-bottom:50px;"></h1>
+                           <span style="margin-left:1100px; font-size:30px; font-weight:bold; " ><span >조회수&nbsp;</span><span th:text="${vo.hit}" style="color:red; font-style: italic;"></span></span>
+                        <div class="row" style="margin-top:20px;" >
+            	<img th:src="${vo.news_img}">
+            	</div>
+                     
+                    </div>
+                		<p th:utext="${vo.news_content}" style="font-size:30px;"></p>
+
+                   	<hr>
+                    <div class="row">
+                    	<div style="margin-bottom:15px;"><span style="font-size:45px; font-weight:bold; color:green;   font-style: italic;">댓글</span></div>
+                    </div>
+                </div>
+            <table class="table">
+    <tr>
+     <td style="border-bottom:none;">
+      <table class="table" th:each="rvo:${list}">
+        <tr style="border:1px #f2f2f2 solid; border-radius:10px;">
+         <td  align="left" ><span><img src="../img/ikmyung.png" width="20px"></span><span th:text="| ${rvo.name} ( ${rvo.regdate} )|"></span></td>
+         <td align="right">
+           <span th:if="${session.id==rvo.id}" class="inline">
+            <input type=button value="수정" class="btn btn-xs btn-danger updates"
+              th:alt="${rvo.no}"
+            >
+            <a th:href="@{/reply/delete(pno=${rvo.pno},no=${rvo.no})}" class="btn btn-xs btn-success">삭제</a>
+           </span>
+         </td>
+        </tr>
+        <tr style="background-color:#f2f2f2;">
+         <td colspan="2">
+          <pre style="white-space: pre-wrap;background-color: ;" th:text="${rvo.msg}" ></pre>
+         </td>
+        </tr>
+        <tr th:id="|u${rvo.no}|" class="ups" style="display:none">
+         <td colspan="2">
+             <form method="post" action="/reply/update">
+               <input type="hidden" name="no" th:value="${rvo.no}">
+		       <input type="hidden" name="pno" th:value="${vo.pno}">
+		       <textarea rows="4" cols="60" style="float: left; resize: none; border-radius:10px" required name="msg" th:text="${rvo.msg}"></textarea>
+		       <input type=submit value="댓글수정" style=" margin-left:5px;height:100px;width:100px;background-color: green; color:white; border-radius:5px;">
+		      </form>
+         </td>
+        </tr>
+      </table>
+     </td>
+    </tr>
+   </table>
+   <table class="table" th:if="${session.id!=null}" >
+    <tr >
+     <td style="border:none;">
+      <form method="post" action="/reply/insert">
+       <input type="hidden" name="pno" th:value="${vo.pno}">
+       <textarea rows="5" cols="132" style="float: left; border-radius:10px;resize: none; " required name="msg" ></textarea>
+       <input type=submit value="댓글쓰기" style="margin-left:5px;height:122px;width:100px;background-color: green; color:white; border-radius:5px;">
+      </form>
+     </td>
+    </tr>
+   </table>
+        </div>
+  
+  
+    
+    <!-- Article End -->
+</body>
+</html>

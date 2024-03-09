@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+</head>
+<body>
+  <div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container text-center py-5">
+            <h1 class="display-2 text-dark mb-4 animated slideInDown">Community</h1>
+            <nav aria-label="breadcrumb animated slideInDown">
+              
+            </nav>
+        </div>
+    </div>
+
+   <div class="wrapper row3">
+      <main class="container clear">
+         <h2 class="sectiontitle">자유 게시판</h2>
+         <table class="table">
+         	<tr>
+         		<td>
+         			<a href="/board/insert" class="btn btn-sm btn-danger">새글</a>
+         		</td>
+         	
+         	</tr>
+         </table>
+         
+         <table class="table">
+         	<tr>
+         		<th width=10% class="text-center">번호</th>
+         		<th width=45% class="text-center">제목</th>
+         		<th width=15% class="text-center">이름</th>
+         		<th width=20% class="text-center">작성일</th>
+         		<th width=10% class="text-center">조회수</th>
+         	</tr>
+         	
+         		<tr th:each="vo:${list}">
+         		<td widtd=10% class="text-center" th:text="${vo.no}"></td>
+         		<td widtd=45% ><a th:href="@{/board/detail(no=${vo.no})}"><span th:text="${vo.subject}"></span></a></td>
+         		<td widtd=15% class="text-center" th:text="${vo.name}">이름</td>
+         		<td widtd=20% class="text-center" th:text="${vo.regdate}">작성일</td>
+         		<td widtd=10% class="text-center" th:text="${vo.hit}">조회수</td>
+         	</tr>
+         	
+         	<tr>
+         	<td colspan="5" class="text-center">
+         		<a href="#" class="btn btn-sm btn-success">이전</a>
+         		<span th:text="${curpage}"></span>page /<span th:text="${totalpage}"></span>pages
+         		<a href="#" class="btn btn-sm btn-info">다음</a>
+         	</td>
+         	</tr>
+         	
+         	
+         </table>
+      </main>
+   </div>
+</body>
+</html>
